@@ -1,8 +1,10 @@
+import { Header } from "@/components/Header";
+import TrainList from "@/components/TrainList";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div>
-        <h1>Hello</h1>
-    </div>
+    <main>
+      <TrainList />
+    </main>
   );
 }
