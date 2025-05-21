@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
-import "./globals.css";
 import { Header } from "@/components/Header";
+import "../styles/globals.css";
 
 export const metadata = {
   title: "Train Schedule App",

@@ -25,69 +25,83 @@ const TrainsList = () => {
   );
 
   const sortedTrains = [...filteredTrains].sort((a, b) => {
-    if (!sortField) {
-      return 0;
-    } else {
-      return (
-        new Date(a[sortField]).getTime() - new Date(b[sortField]).getTime()
-      );
-    }
+    if (!sortField) return 0;
+    return (
+      new Date(a[sortField]).getTime() - new Date(b[sortField]).getTime()
+    );
   });
 
   return (
-    <div className="max-w-2xl mx-auto py-10">
-      <h2 className="text-2xl font-bold mb-4">Train Schedule</h2>
+    <div className="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+      <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center tracking-tight">
+        Train Schedule
+      </h2>
 
-      <input
-        type="text"
-        placeholder="Search by From or To"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="w-full mb-4 p-2 border rounded"
-      />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+        <input
+          type="text"
+          placeholder="Search by From or To"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-800"
+        />
 
-      <select
-        value={sortField}
-        onChange={(e) =>
-          setSortField(e.target.value as "departureTime" | "arrivalTime" | "")
-        }
-        className="w-full mb-6 p-2 border rounded"
-      >
-        <option value="">Sort by...</option>
-        <option value="departureTime">Departure Time</option>
-        <option value="arrivalTime">Arrival Time</option>
-      </select>
+        <select
+          value={sortField}
+          onChange={(e) =>
+            setSortField(e.target.value as "departureTime" | "arrivalTime" | "")
+          }
+          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-800"
+        >
+          <option value="">Sort by...</option>
+          <option value="departureTime">Departure Time</option>
+          <option value="arrivalTime">Arrival Time</option>
+        </select>
+      </div>
 
-      <ul className="space-y-4">
+      <ul className="space-y-6">
         {sortedTrains.map((train) => (
           <li
             key={train.id}
-            className="p-4 mb-2 border rounded-md shadow-sm flex justify-between"
-            style={{ marginBottom: "8px", padding: "4px" }}
+            className="p-6 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow"
           >
-            <div>
+            <div className="flex justify-between items-center">
               <div>
-                <strong>{train.from}</strong> → <strong>{train.to}</strong>
+                <h3 className="text-xl font-semibold text-gray-900">
+                  {train.from} → {train.to}
+                </h3>
+                <p className="text-sm text-gray-500 mt-1">
+                  Departure:{" "}
+                  <span className="font-medium text-gray-700">
+                    {new Date(train.departureTime).toLocaleString()}
+                  </span>
+                </p>
+                <p className="text-sm text-gray-500">
+                  Arrival:{" "}
+                  <span className="font-medium text-gray-700">
+                    {new Date(train.arrivalTime).toLocaleString()}
+                  </span>
+                </p>
               </div>
-              <div className="text-sm text-gray-600">
-                Departure: {new Date(train.departureTime).toLocaleString()}{" "}
-                <br />
-                Arrival: {new Date(train.arrivalTime).toLocaleString()}
-              </div>
+
+              {token && (
+                <button
+                  className="inline-block px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-colors"
+                  onClick={() => router.push(`/trains/${train.id}`)}
+                >
+                  Edit
+                </button>
+              )}
             </div>
-            {token && (
-              <button
-                className="text-blue-600 hover:underline"
-                onClick={() => router.push(`/trains/${train.id}`)}
-              >
-                Edit
-              </button>
-            )}
           </li>
         ))}
       </ul>
 
-      {token && <CreateTrain />}
+      {token && (
+        <div className="mt-12">
+          <CreateTrain />
+        </div>
+      )}
     </div>
   );
 };
