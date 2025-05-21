@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuthStore } from "@/store/authStore";
-import axios from "axios";
 
 export const SignUpForm = () => {
   const router = useRouter();
@@ -21,8 +20,9 @@ export const SignUpForm = () => {
     try {
       await signup(email, password);
       router.push("/");
-    } catch (err) {
+    } catch (error) {
       setError("Login failed. Please check your credentials.");
+      console.log(error);
     }
   };
 
