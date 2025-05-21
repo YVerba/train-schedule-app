@@ -1,4 +1,3 @@
-import { useAuthStore } from "@/store/authStore";
 import axios from "axios";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -35,7 +34,7 @@ export const createTrain = async (from: string, to: string, departureTime: strin
   }
 };
 
-export const updateTrain = async (id: string, data: any) => {
+export const updateTrain = async (id: string, data: Record<string, unknown>) => {
   try {
     const res = await axios.patch(`${API_URL}/train/${id}`, data);
     return res.data;

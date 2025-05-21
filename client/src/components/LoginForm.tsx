@@ -22,6 +22,7 @@ export const LoginForm = () => {
       router.push('/');
     } catch (err) {
       setError('Login failed. Please check your credentials.');
+      console.log(err);
     }
   };
 

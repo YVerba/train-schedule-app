@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { Train } from "@/types/train";
 import { createTrain, getTrains, updateTrain } from "@/lib/api";
-import { useAuthStore } from "./authStore";
 
 interface TrainStore {
   trains: Train[];

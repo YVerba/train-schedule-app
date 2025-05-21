@@ -1,5 +1,5 @@
 export type Train = {
-  id: number;
+  id: string;
   from: string;
   to: string;
   departureTime: string;

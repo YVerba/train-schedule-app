@@ -3,16 +3,17 @@
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { deleteTrain, getTrainById, updateTrain } from "@/lib/api";
+import { Train } from "@/types/train";
 
 export const TrainEditor = () => {
   const { id } = useParams();
-  const [train, setTrain] = useState<any>(null);
+  const [train, setTrain] = useState<Train | null>(null);
   const [loading, setLoading] = useState(true);
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [departureTime, setDepartureTime] = useState("");
   const [arrivalTime, setArrivalTime] = useState("");
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
     const fetchTrain = async () => {
@@ -23,8 +24,8 @@ export const TrainEditor = () => {
         setTo(data.to);
         setDepartureTime(data.departureTime.slice(0, 16));
         setArrivalTime(data.arrivalTime.slice(0, 16));
-      } catch (e) {
-        console.error("Failed to fetch train");
+      } catch (error) {
+        console.error(error);
       } finally {
         setLoading(false);
       }
@@ -34,27 +35,35 @@ export const TrainEditor = () => {
   }, [id]);
 
   const handleUpdate = async () => {
-    try {
-      await updateTrain(train.id, {
-        from,
-        to,
-        departureTime,
-        arrivalTime,
-      });
-      alert("Train updated successfully!");
-    } catch (error) {
-      console.error("Failed to update train:", error);
-      alert("Failed to update train.");
+  try {
+    if (!train) {
+      console.error("Train is undefined");
+      alert("Train data is not available.");
+      return;
     }
-  };
+
+    await updateTrain(train.id, {
+      from,
+      to,
+      departureTime,
+      arrivalTime,
+    });
+
+    alert("Train updated successfully!");
+  } catch (error) {
+    console.error("Failed to update train:", error);
+    alert("Failed to update train.");
+  }
+};
 
   const handleDelete = async () => {
     if (!confirm("Are you sure you want to delete this train?")) return;
 
     try {
+      if (!train) return;
       await deleteTrain(train.id);
       alert("Train deleted successfully!");
-      router.push('/')
+      router.push("/");
     } catch (error) {
       console.error("Failed to delete train:", error);
       alert("Failed to delete train.");
