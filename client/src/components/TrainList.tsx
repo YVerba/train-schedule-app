@@ -43,7 +43,7 @@ const TrainsList = () => {
         placeholder="Search by From or To"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="w-full mb-4 p-2 border rounded"
+        className="w-full h-[20px] p-2 border rounded"
       />
 
       <select
@@ -51,7 +51,7 @@ const TrainsList = () => {
         onChange={(e) =>
           setSortField(e.target.value as "departureTime" | "arrivalTime" | "")
         }
-        className="w-full mb-6 p-2 border rounded"
+        className="w-full h-[20px] mb-[20px] p-2 border rounded"
       >
         <option value="">Sort by...</option>
         <option value="departureTime">Departure Time</option>
