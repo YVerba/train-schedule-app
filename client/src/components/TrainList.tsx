@@ -26,9 +26,7 @@ const TrainsList = () => {
 
   const sortedTrains = [...filteredTrains].sort((a, b) => {
     if (!sortField) return 0;
-    return (
-      new Date(a[sortField]).getTime() - new Date(b[sortField]).getTime()
-    );
+    return new Date(a[sortField]).getTime() - new Date(b[sortField]).getTime();
   });
 
   return (
